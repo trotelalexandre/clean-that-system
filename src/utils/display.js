@@ -7,7 +7,6 @@ function displayMessage(title, message, color) {
       title,
       titleAlignment: "center",
       padding: 1,
-      margin: 1,
       borderStyle: "round",
     })
   );

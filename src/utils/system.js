@@ -4,9 +4,6 @@ import chalk from "chalk";
 import boxen from "boxen";
 
 async function displaySystemInfo() {
-  const header = chalk.bold.green("=== SYSTEM INFORMATION ===");
-  console.log(boxen(header, { padding: 1, margin: 1, borderStyle: "double" }));
-
   // General info
   const osInfo = `${chalk.bold("OS:")} ${chalk.cyan(
     `${os.type()} ${os.release()} (${os.arch()})`
@@ -16,7 +13,12 @@ ${chalk.bold("Uptime:")} ${chalk.cyan(
     `${Math.floor(os.uptime() / 3600)} hours`
   )}`;
   console.log(
-    boxen(osInfo, { padding: 1, borderStyle: "round", borderColor: "blue" })
+    boxen(osInfo, {
+      padding: 1,
+      borderStyle: "round",
+      borderColor: "blue",
+      title: "System Information",
+    })
   );
 
   // CPU info
@@ -30,7 +32,12 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       .join(", ")
   )}`;
   console.log(
-    boxen(cpuInfo, { padding: 1, borderStyle: "round", borderColor: "yellow" })
+    boxen(cpuInfo, {
+      padding: 1,
+      borderStyle: "round",
+      borderColor: "yellow",
+      title: "CPU Information",
+    })
   );
 
   // Memory info
@@ -44,6 +51,7 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       padding: 1,
       borderStyle: "round",
       borderColor: "magenta",
+      title: "Memory Information",
     })
   );
 
@@ -60,7 +68,12 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
     )
     .join("\n");
   console.log(
-    boxen(diskInfo, { padding: 1, borderStyle: "round", borderColor: "green" })
+    boxen(diskInfo, {
+      padding: 1,
+      borderStyle: "round",
+      borderColor: "green",
+      title: "Disk Information",
+    })
   );
 
   // Network info
@@ -84,6 +97,7 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       padding: 1,
       borderStyle: "round",
       borderColor: "cyan",
+      title: "Network Information",
     })
   );
 }

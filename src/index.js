@@ -12,8 +12,6 @@ async function inspectSystem({ dryRun, backupCache }) {
   // display system information
   await displaySystemInfo();
 
-  displayMessage("Clean That System", "Inspecting system...", "green");
-
   const advice = [];
   const actions = [];
 
@@ -36,7 +34,7 @@ async function inspectSystem({ dryRun, backupCache }) {
   await manageDockerImages(advice, actions);
 
   if (advice.length > 0) {
-    displayMessage("Advice", advice.join("\n"), "yellow");
+    displayMessage("Clean That System - Advice", advice.join("\n"), "yellow");
     promptAction(actions, dryRun);
   } else {
     displayMessage("System OK", "No issues detected.", "green");
