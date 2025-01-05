@@ -1,5 +1,6 @@
 import readline from "readline";
 import chalk from "chalk";
+import process from "node:process";
 
 function promptAction(actions, dryRun) {
   const rl = readline.createInterface({
