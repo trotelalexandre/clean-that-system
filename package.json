@@ -1,9 +1,9 @@
 {
   "name": "clean-that-system",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "jest"
   },
   "keywords": [
@@ -15,8 +15,9 @@
   "license": "ISC",
   "description": "A command-line tool created with Node.js to check your computer’s health and help optimize its performance.",
   "bin": {
-    "cts": "index.js"
+    "cts": "bin/cts.js"
   },
+  "type": "module",
   "dependencies": {
     "boxen": "^8.0.1",
     "chalk": "^5.4.1",
