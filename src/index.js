@@ -6,8 +6,12 @@ import { checkBrowserCache } from "./modules/browserCache.js";
 import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
+import { displaySystemInfo } from "./utils/system.js";
 
 async function inspectSystem({ dryRun, backupCache }) {
+  // display system information
+  await displaySystemInfo();
+
   displayMessage("Clean That System", "Inspecting system...", "green");
 
   const advice = [];
@@ -39,4 +43,4 @@ async function inspectSystem({ dryRun, backupCache }) {
   }
 }
 
-export default { inspectSystem };
+export { inspectSystem };
