@@ -1,0 +1,30 @@
+{
+  "name": "clean-that-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "system",
+    "clean",
+    "nodejs"
+  ],
+  "author": "Alexandre Trotel",
+  "license": "ISC",
+  "description": "A command-line tool created with Node.js to check your computer’s health and help optimize its performance.",
+  "bin": {
+    "cts": "index.js"
+  },
+  "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
+    "minimist": "^1.2.8",
+    "os-utils": "^0.0.14",
+    "systeminformation": "^5.25.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
