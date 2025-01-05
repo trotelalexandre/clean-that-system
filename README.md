@@ -59,7 +59,3 @@ And that’s it! Your system is now _almost_ clean, and you can inspect how thin
 ## License
 
 MIT License. Clean responsibly!
-
----
-
-### ⚡️ Enjoy a faster, cleaner, and more efficient system with **Clean That System**!
