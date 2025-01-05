@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { inspectSystem } from "../src";
+import { inspectSystem } from "../src/index.js";
 import minimist from "minimist";
 
 const args = minimist(process.argv.slice(2));
