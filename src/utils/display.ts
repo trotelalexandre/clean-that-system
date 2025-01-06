@@ -8,7 +8,7 @@ function displayMessage(title: string, message: string, color: string) {
       titleAlignment: "center",
       padding: 1,
       borderStyle: "round",
-    })
+    }),
   );
 }
 

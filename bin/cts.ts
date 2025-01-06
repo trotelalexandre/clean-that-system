@@ -6,7 +6,7 @@ import process from "node:process";
 
 const args = minimist(process.argv.slice(2));
 
-const dryRun = args.dryRun ?? false;
-const backupCache = args.backup ?? false;
+const dryRunFlag: boolean = args.dryRun ?? false;
+const backupCacheFlag: boolean = args.backup ?? false;
 
-inspectSystem({ dryRun, backupCache });
+inspectSystem({ dryRunFlag, backupCacheFlag });

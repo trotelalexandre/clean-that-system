@@ -7,35 +7,44 @@ import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
 import { displaySystemInfo } from "./utils/system.js";
+import { Actions } from "types/core.js";
 
-async function inspectSystem({ dryRun, backupCache }) {
+interface InspectSystemOptions {
+  dryRunFlag: boolean;
+  backupCacheFlag: boolean;
+}
+
+async function inspectSystem({
+  dryRunFlag,
+  backupCacheFlag,
+}: InspectSystemOptions) {
   // display system information
   await displaySystemInfo();
 
-  const advice = [];
-  const actions = [];
+  const advices: string[] = [];
+  const actions: Actions = [];
 
   // check cpu
-  await checkCPU(advice, actions);
+  await checkCPU(advices, actions);
 
   // check memory
-  await checkMemory(advice, actions);
+  await checkMemory(advices, actions);
 
   // check disk
-  await checkDisk(advice, actions);
+  await checkDisk(advices, actions);
 
   // check network
-  await checkNetwork(advice, actions);
+  await checkNetwork(advices, actions);
 
   // check browser cache
-  await checkBrowserCache(advice, actions, { backupCache });
+  await checkBrowserCache(advices, actions, { backupCacheFlag });
 
   // manage docker images
-  await manageDockerImages(advice, actions);
+  await manageDockerImages(advices, actions);
 
-  if (advice.length > 0) {
-    displayMessage("Clean That System - Advice", advice.join("\n"), "yellow");
-    promptAction(actions, dryRun);
+  if (advices.length > 0) {
+    displayMessage("Clean That System - Advice", advices.join("\n"), "yellow");
+    promptAction(actions, dryRunFlag);
   } else {
     displayMessage("System OK", "No issues detected.", "green");
   }
