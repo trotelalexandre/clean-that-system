@@ -81,8 +81,8 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
   const networkInfo = Object.entries(networkInterfaces)
     .map(([name, interfaces]) =>
       interfaces
-        .filter((iface) => !iface.internal)
-        .map(
+        ?.filter((iface) => !iface.internal)
+        ?.map(
           (iface) =>
             `${chalk.bold(`Network Interface: ${name}`)}
   ${chalk.bold("IP Address:")} ${chalk.cyan(iface.address)}
@@ -90,8 +90,8 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
         )
         .join("\n")
     )
-    .filter((info) => info.length > 0)
-    .join("\n\n");
+    ?.filter((info) => (info ? info.length > 0 : false))
+    ?.join("\n\n");
   console.log(
     boxen(networkInfo, {
       padding: 1,

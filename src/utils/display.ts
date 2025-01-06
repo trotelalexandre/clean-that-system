@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import boxen from "boxen";
 
-function displayMessage(title, message, color) {
+function displayMessage(title: string, message: string, color: string) {
   console.log(
     boxen(chalk[color](message), {
       title,
