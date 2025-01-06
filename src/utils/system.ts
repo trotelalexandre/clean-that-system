@@ -6,11 +6,11 @@ import boxen from "boxen";
 async function displaySystemInfo() {
   // General info
   const osInfo = `${chalk.bold("OS:")} ${chalk.cyan(
-    `${os.type()} ${os.release()} (${os.arch()})`
+    `${os.type()} ${os.release()} (${os.arch()})`,
   )}
 ${chalk.bold("Hostname:")} ${chalk.cyan(os.hostname())}
 ${chalk.bold("Uptime:")} ${chalk.cyan(
-    `${Math.floor(os.uptime() / 3600)} hours`
+    `${Math.floor(os.uptime() / 3600)} hours`,
   )}`;
   console.log(
     boxen(osInfo, {
@@ -18,7 +18,7 @@ ${chalk.bold("Uptime:")} ${chalk.cyan(
       borderStyle: "round",
       borderColor: "blue",
       title: "System Information",
-    })
+    }),
   );
 
   // CPU info
@@ -29,7 +29,7 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
     os
       .loadavg()
       .map((load) => load.toFixed(2))
-      .join(", ")
+      .join(", "),
   )}`;
   console.log(
     boxen(cpuInfo, {
@@ -37,14 +37,14 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       borderStyle: "round",
       borderColor: "yellow",
       title: "CPU Information",
-    })
+    }),
   );
 
   // Memory info
   const totalMem = (os.totalmem() / 1024 / 1024 / 1024).toFixed(2);
   const freeMem = (os.freemem() / 1024 / 1024 / 1024).toFixed(2);
   const memoryInfo = `${chalk.bold("Memory:")} ${chalk.cyan(
-    `${freeMem} GB free / ${totalMem} GB total`
+    `${freeMem} GB free / ${totalMem} GB total`,
   )}`;
   console.log(
     boxen(memoryInfo, {
@@ -52,7 +52,7 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       borderStyle: "round",
       borderColor: "magenta",
       title: "Memory Information",
-    })
+    }),
   );
 
   // Disk info
@@ -62,9 +62,9 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       (disk, index) =>
         `${chalk.bold(`Disk ${index + 1}:`)} ${chalk.cyan(
           `${disk.fs} (${(disk.size / 1024 / 1024 / 1024).toFixed(
-            2
-          )} GB total, ${disk.use}% used)`
-        )}`
+            2,
+          )} GB total, ${disk.use}% used)`,
+        )}`,
     )
     .join("\n");
   console.log(
@@ -73,7 +73,7 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
       borderStyle: "round",
       borderColor: "green",
       title: "Disk Information",
-    })
+    }),
   );
 
   // Network info
@@ -81,24 +81,24 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
   const networkInfo = Object.entries(networkInterfaces)
     .map(([name, interfaces]) =>
       interfaces
-        .filter((iface) => !iface.internal)
-        .map(
+        ?.filter((iface) => !iface.internal)
+        ?.map(
           (iface) =>
             `${chalk.bold(`Network Interface: ${name}`)}
   ${chalk.bold("IP Address:")} ${chalk.cyan(iface.address)}
-  ${chalk.bold("MAC Address:")} ${chalk.cyan(iface.mac)}`
+  ${chalk.bold("MAC Address:")} ${chalk.cyan(iface.mac)}`,
         )
-        .join("\n")
+        .join("\n"),
     )
-    .filter((info) => info.length > 0)
-    .join("\n\n");
+    ?.filter((info) => (info ? info.length > 0 : false))
+    ?.join("\n\n");
   console.log(
     boxen(networkInfo, {
       padding: 1,
       borderStyle: "round",
       borderColor: "cyan",
       title: "Network Information",
-    })
+    }),
   );
 }
 

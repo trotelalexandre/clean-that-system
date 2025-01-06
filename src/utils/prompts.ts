@@ -1,8 +1,9 @@
 import readline from "readline";
 import chalk from "chalk";
 import process from "node:process";
+import { Actions } from "../types/core.js";
 
-function promptAction(actions, dryRun) {
+function promptAction(actions: Actions, dryRunFlag: boolean) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -22,9 +23,9 @@ function promptAction(actions, dryRun) {
       const choice = parseInt(answer, 10);
       if (choice >= 1 && choice <= actions.length) {
         console.log(
-          chalk.green(`\nExecuting: ${actions[choice - 1].description}\n`)
+          chalk.green(`\nExecuting: ${actions[choice - 1].description}\n`),
         );
-        if (dryRun) {
+        if (dryRunFlag) {
           console.log(chalk.gray("Dry run enabled. No changes will be made."));
         } else {
           actions[choice - 1].execute();
@@ -33,7 +34,7 @@ function promptAction(actions, dryRun) {
         console.log(chalk.red("Invalid choice. Exiting."));
       }
       rl.close();
-    }
+    },
   );
 }
 

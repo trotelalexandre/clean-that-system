@@ -1,6 +1,7 @@
 import { execSync } from "child_process";
+import { Actions } from "../types/core.js";
 
-async function manageDockerImages(advice, actions) {
+async function manageDockerImages(advice: string[], actions: Actions) {
   advice.push("Consider cleaning up unused Docker images.");
   actions.push({
     description: "List Docker images",
