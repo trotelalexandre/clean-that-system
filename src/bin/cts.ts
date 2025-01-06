@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { inspectSystem } from "../src/index.js";
+import { inspectSystem } from "../index.js";
 import minimist from "minimist";
 import process from "node:process";
 

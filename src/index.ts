@@ -7,7 +7,7 @@ import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
 import { displaySystemInfo } from "./utils/system.js";
-import { Actions } from "types/core.js";
+import { Actions } from "./types/core.js";
 
 interface InspectSystemOptions {
   dryRunFlag: boolean;

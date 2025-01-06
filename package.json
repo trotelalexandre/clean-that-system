@@ -1,10 +1,10 @@
 {
   "name": "clean-that-system",
   "version": "1.0.3",
-  "main": "src/index.js",
+  "main": "src/bin/cts.js",
   "scripts": {
     "build": "tsc",
-    "start": "node bin/cts.js",
+    "start": "node dist/bin/cts.js",
     "test": "jest",
     "lint": "eslint .",
     "format": "prettier --write ."
@@ -18,7 +18,7 @@
   "license": "MIT",
   "description": "A command-line tool created with Node.js to check your computer’s health and help optimize its performance.",
   "bin": {
-    "cts": "bin/cts.js"
+    "cts": "dist/bin/cts.js"
   },
   "type": "module",
   "dependencies": {
