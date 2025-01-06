@@ -1,7 +1,8 @@
 import { totalmem, freemem } from "os";
 import { execSync } from "child_process";
+import { Actions } from "../types/core.js";
 
-async function checkMemory(advice, actions) {
+async function checkMemory(advice: string[], actions: Actions) {
   const totalMemory = totalmem() / 1024 / 1024; // MB
   const freeMemory = freemem() / 1024 / 1024; // MB
   const usedMemory = totalMemory - freeMemory;
