@@ -15,10 +15,10 @@ async function checkMemory(advice: string[], actions: Actions) {
       execute: () => {
         const command =
           process.platform === "win32"
-            ? "tasklist"
+            ? 'powershell -Command "Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 10"'
             : process.platform === "darwin"
-              ? "ps -eo pid,ppid,comm,%mem | sort -k 4 -r | head"
-              : "ps -eo pid,ppid,cmd,%mem --sort=-%mem | head";
+              ? "top -o mem -n 10"
+              : "top -b -o +%MEM | head -n 20";
         execSync(command, {
           stdio: "inherit",
         });
