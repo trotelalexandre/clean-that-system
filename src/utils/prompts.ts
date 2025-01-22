@@ -9,6 +9,11 @@ function promptAction(actions: Actions, dryRunFlag: boolean) {
     output: process.stdout,
   });
 
+  if (actions.length === 0) {
+    rl.close();
+    return;
+  }
+
   console.log(chalk.yellow("\nAvailable actions:"));
   actions.forEach((action, index) => {
     console.log(`${index + 1}. ${action.description}`);
@@ -23,7 +28,7 @@ function promptAction(actions: Actions, dryRunFlag: boolean) {
       const choice = parseInt(answer, 10);
       if (choice >= 1 && choice <= actions.length) {
         console.log(
-          chalk.green(`\nExecuting: ${actions[choice - 1].description}\n`),
+          chalk.green(`\nExecuting: ${actions[choice - 1].description}\n`)
         );
         if (dryRunFlag) {
           console.log(chalk.gray("Dry run enabled. No changes will be made."));
@@ -34,7 +39,7 @@ function promptAction(actions: Actions, dryRunFlag: boolean) {
         console.log(chalk.red("Invalid choice. Exiting."));
       }
       rl.close();
-    },
+    }
   );
 }
 
