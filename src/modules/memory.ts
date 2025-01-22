@@ -3,12 +3,12 @@ import { execSync } from "child_process";
 import { Actions } from "../types/core.js";
 
 async function checkMemory(advice: string[], actions: Actions) {
-  const totalMemory = totalmem() / 1024 / 1024; // MB
-  const freeMemory = freemem() / 1024 / 1024; // MB
+  const totalMemory = totalmem();
+  const freeMemory = freemem();
   const usedMemory = totalMemory - freeMemory;
-  const memoryUsage = (usedMemory / totalMemory) * 100;
+  const memoryUsage = usedMemory / totalMemory;
 
-  if (memoryUsage > 75) {
+  if (memoryUsage > 0.8) {
     advice.push("Memory usage is high. Try closing unnecessary programs.");
     actions.push({
       description: "List top memory-consuming processes",

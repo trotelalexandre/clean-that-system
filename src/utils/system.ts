@@ -6,20 +6,12 @@ import boxen from "boxen";
 async function displaySystemInfo() {
   // General info
   const osInfo = `${chalk.bold("OS:")} ${chalk.cyan(
-    `${os.type()} ${os.release()} (${os.arch()})`,
+    `${os.type()} ${os.release()} (${os.arch()})`
   )}
 ${chalk.bold("Hostname:")} ${chalk.cyan(os.hostname())}
 ${chalk.bold("Uptime:")} ${chalk.cyan(
-    `${Math.floor(os.uptime() / 3600)} hours`,
+    `${Math.floor(os.uptime() / 3600)} hours`
   )}`;
-  console.log(
-    boxen(osInfo, {
-      padding: 1,
-      borderStyle: "round",
-      borderColor: "blue",
-      title: "System Information",
-    }),
-  );
 
   // CPU info
   const cpu = os.cpus()[0];
@@ -29,76 +21,38 @@ ${chalk.bold("Load Average:")} ${chalk.cyan(
     os
       .loadavg()
       .map((load) => load.toFixed(2))
-      .join(", "),
+      .join(", ")
   )}`;
-  console.log(
-    boxen(cpuInfo, {
-      padding: 1,
-      borderStyle: "round",
-      borderColor: "yellow",
-      title: "CPU Information",
-    }),
-  );
 
   // Memory info
   const totalMem = (os.totalmem() / 1024 / 1024 / 1024).toFixed(2);
   const freeMem = (os.freemem() / 1024 / 1024 / 1024).toFixed(2);
   const memoryInfo = `${chalk.bold("Memory:")} ${chalk.cyan(
-    `${freeMem} GB free / ${totalMem} GB total`,
+    `${freeMem} GB free / ${totalMem} GB total`
   )}`;
-  console.log(
-    boxen(memoryInfo, {
-      padding: 1,
-      borderStyle: "round",
-      borderColor: "magenta",
-      title: "Memory Information",
-    }),
-  );
 
-  // Disk info
+  // Main disk info
   const disks = await si.fsSize();
-  const diskInfo = disks
-    .map(
-      (disk, index) =>
-        `${chalk.bold(`Disk ${index + 1}:`)} ${chalk.cyan(
-          `${disk.fs} (${(disk.size / 1024 / 1024 / 1024).toFixed(
-            2,
-          )} GB total, ${disk.use}% used)`,
-        )}`,
-    )
-    .join("\n");
-  console.log(
-    boxen(diskInfo, {
-      padding: 1,
-      borderStyle: "round",
-      borderColor: "green",
-      title: "Disk Information",
-    }),
-  );
+  const mainDisk = disks[0];
+  const mainDiskInfo = `${chalk.bold("Disk:")} ${chalk.cyan(
+    `${mainDisk.fs} (${(mainDisk.size / 1024 / 1024 / 1024).toFixed(
+      2
+    )} GB total, ${(mainDisk.available / 1024 / 1024 / 1024).toFixed(2)} GB free)`
+  )}`;
 
-  // Network info
-  const networkInterfaces = os.networkInterfaces();
-  const networkInfo = Object.entries(networkInterfaces)
-    .map(([name, interfaces]) =>
-      interfaces
-        ?.filter((iface) => !iface.internal)
-        ?.map(
-          (iface) =>
-            `${chalk.bold(`Network Interface: ${name}`)}
-  ${chalk.bold("IP Address:")} ${chalk.cyan(iface.address)}
-  ${chalk.bold("MAC Address:")} ${chalk.cyan(iface.mac)}`,
-        )
-        .join("\n"),
-    )
-    ?.filter((info) => (info ? info.length > 0 : false))
-    ?.join("\n\n");
+  // Network speed info (later)
+  const networkSpeedInfo = `${chalk.bold("Network:")} ${chalk.cyan("Not available yet")}`;
+
+  // Display system info
+  const systemInfo = `${osInfo}\n\n${cpuInfo}\n\n${memoryInfo}\n\n${mainDiskInfo}\n\n${networkSpeedInfo}`;
+
   console.log(
-    boxen(networkInfo, {
+    boxen(systemInfo, {
       padding: 1,
       borderStyle: "round",
-      borderColor: "cyan",
-      title: "Network Information",
-    }),
+      borderColor: "blue",
+      title: "System Information",
+    })
   );
 }
 
