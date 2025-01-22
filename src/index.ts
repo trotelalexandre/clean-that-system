@@ -7,6 +7,7 @@ import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
 import { displaySystemInfo } from "./utils/system.js";
+import { checUptime } from "./modules/uptime.js";
 import { Actions } from "./types/core.js";
 import { execSync } from "node:child_process";
 
@@ -36,6 +37,9 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
 
   // check browser cache
   await checkBrowserCache(advices, actions);
+
+  // check uptime
+  await checUptime(advices, actions);
 
   // manage docker images (if daemon is running only)
   try {
