@@ -15,10 +15,7 @@ interface InspectSystemOptions {
   backupCacheFlag: boolean;
 }
 
-async function inspectSystem({
-  dryRunFlag,
-  backupCacheFlag,
-}: InspectSystemOptions) {
+async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
   // display system information
   await displaySystemInfo();
 
@@ -38,7 +35,7 @@ async function inspectSystem({
   await checkNetwork(advices, actions);
 
   // check browser cache
-  await checkBrowserCache(advices, actions, { backupCacheFlag });
+  await checkBrowserCache(advices, actions);
 
   // manage docker images (if daemon is running only)
   try {
