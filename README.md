@@ -14,7 +14,7 @@ This nifty little package will inspect your system like an overzealous detective
 - 🌐 **Network Check**: Does your internet speed need a tune-up? We got you!
 - 🧑‍💻 **Browser Cache Cleanup**: Because who doesn’t love clearing cache? 🥳
 - 🐳 **Docker Image Management**: Keep your Docker images tidy and efficient!
-- 🧹 **Dry Run and Backup Options**: Don't worry, no system changes unless you say so!
+- 🧹 **Dry Run Options**: Don't worry, no system changes unless you say so!
 
 ## Installation
 
@@ -36,7 +36,6 @@ cts [OPTIONS] # See the options section
 ### Options
 
 - `--dryRun`: Inspect everything without making any changes (because sometimes we just want to know, right?).
-- `--backup`: Back up your browser cache before cleaning, because we know you’re sentimental about your web history. 😅
 
 ## How it works
 
