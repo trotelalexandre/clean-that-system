@@ -1,7 +1,0 @@
-# My template for Node.js projects
-src/
-.gitignore
-.eslint*
-*.test.*
-jest.config.*
-tsconfig.json
