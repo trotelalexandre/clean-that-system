@@ -8,6 +8,7 @@ import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
 import { displaySystemInfo } from "./utils/system.js";
 import { Actions } from "./types/core.js";
+import { execSync } from "node:child_process";
 
 interface InspectSystemOptions {
   dryRunFlag: boolean;
@@ -39,8 +40,15 @@ async function inspectSystem({
   // check browser cache
   await checkBrowserCache(advices, actions, { backupCacheFlag });
 
-  // manage docker images
-  await manageDockerImages(advices, actions);
+  // manage docker images (if daemon is running only)
+  try {
+    execSync("docker info", { stdio: "ignore" });
+    await manageDockerImages(advices, actions);
+  } catch {
+    advices.push(
+      "Docker daemon is not running. Skipping Docker image management."
+    );
+  }
 
   if (advices.length > 0) {
     displayMessage("Clean That System - Advice", advices.join("\n"), "yellow");

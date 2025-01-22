@@ -6,14 +6,19 @@ async function checkCPU(advices: string[], actions: Actions) {
   _cpuUsage((cpuUsage) => {
     if (cpuUsage > 0.8) {
       advices.push(
-        "High CPU usage detected. Consider closing heavy applications.",
+        "High CPU usage detected. Consider closing heavy applications."
       );
       actions.push({
         description: "List top CPU-consuming processes",
-        execute: () =>
-          execSync("ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head", {
-            stdio: "inherit",
-          }),
+        execute: () => {
+          const command =
+            process.platform === "win32"
+              ? 'powershell -Command "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10"'
+              : process.platform === "darwin"
+                ? "ps -A -o pid,ppid,comm,%cpu | sort -k 4 -r | head"
+                : "ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head";
+          execSync(command, { stdio: "inherit" });
+        },
       });
     }
   });
