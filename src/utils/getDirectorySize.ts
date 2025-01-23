@@ -1,7 +1,10 @@
 import { readdirSync, statSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
 
-export function getDirectorySize(directory: string, errors: string[]): number {
+export function getDirectorySize(
+  directory: string,
+  errors: Map<string, Set<string>>
+): number {
   let totalSize = 0;
 
   try {
@@ -17,15 +20,19 @@ export function getDirectorySize(directory: string, errors: string[]): number {
           totalSize += stats.size;
         }
       } catch {
-        errors.push(`Failed to read file ${filePath}`);
+        const parentDir = dirname(filePath);
+        if (!errors.has(parentDir)) {
+          errors.set(parentDir, new Set());
+        }
+        errors.get(parentDir)?.add(filePath);
       }
     });
   } catch {
-    errors.push(`Failed to read directory ${directory}`);
-    //if (process.platform === "darwin") {
-    //  errors.push(
-    //    `If you're on macOS, you may want to give your Terminal app Full Disk Access in System Preferences > Security & Privacy > Privacy.`
-    //  );
+    const parentDir = dirname(directory);
+    if (!errors.has(parentDir)) {
+      errors.set(parentDir, new Set());
+    }
+    errors.get(parentDir)?.add(directory);
   }
 
   return totalSize;

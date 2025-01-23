@@ -1,10 +1,11 @@
 import { cpuUsage as _cpuUsage } from "os-utils";
 import { execSync } from "child_process";
 import { Actions } from "../types/core.js";
+import { CPU_USAGE_LIMIT } from "../data/params.js";
 
 async function checkCPU(advices: string[], actions: Actions) {
   _cpuUsage((cpuUsage) => {
-    if (cpuUsage > 0.8) {
+    if (cpuUsage > CPU_USAGE_LIMIT) {
       advices.push(
         "High CPU usage detected. Consider closing heavy applications."
       );

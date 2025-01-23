@@ -2,7 +2,7 @@ import { checkCPU } from "./modules/cpu.js";
 import { checkMemory } from "./modules/memory.js";
 import { checkDisk } from "./modules/disk.js";
 import { checkNetwork } from "./modules/network.js";
-import { checkBrowserCache } from "./modules/browserCache.js";
+import { checkBrowsersCache } from "./modules/browsersCache.js";
 import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
@@ -11,6 +11,8 @@ import { checkUptime } from "./modules/uptime.js";
 import { Actions } from "./types/core.js";
 import { execSync } from "node:child_process";
 import { checkTrash } from "./modules/trash.js";
+import { checkCaches } from "./modules/caches.js";
+import { aggregatedErrors } from "./utils/aggregateErrors.js";
 
 interface InspectSystemOptions {
   dryRunFlag: boolean;
@@ -23,7 +25,7 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
 
   const advices: string[] = [];
   const actions: Actions = [];
-  const errors: string[] = [];
+  const errors: Map<string, Set<string>> = new Map();
 
   // check cpu
   await checkCPU(advices, actions);
@@ -38,7 +40,10 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
   await checkNetwork(advices, actions);
 
   // check browser cache
-  await checkBrowserCache(advices, actions);
+  await checkBrowsersCache(advices, actions, errors);
+
+  // check caches
+  await checkCaches(advices, actions, errors);
 
   // check uptime
   await checkUptime(advices, actions);
@@ -56,10 +61,12 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
     );
   }
 
-  if (errors.length > 0) {
+  if (errors.size > 0) {
+    const errorMessages = aggregatedErrors(errors);
+
     displayMessage(
-      `Clean That System - Error${errors.length > 1 ? "s" : ""}`,
-      errors.join("\n"),
+      `Clean That System - Error${Object.keys(aggregatedErrors).length > 1 ? "s" : ""}`,
+      errorMessages,
       "red"
     );
   }

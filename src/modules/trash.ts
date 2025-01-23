@@ -7,7 +7,7 @@ import { getDirectorySize } from "../utils/getDirectorySize.js";
 async function checkTrash(
   advice: string[],
   actions: Actions,
-  errors: string[]
+  errors: Map<string, Set<string>>
 ) {
   let trashSize = 0;
 
@@ -23,7 +23,12 @@ async function checkTrash(
       trashSize = getDirectorySize(trashPath, errors);
     }
   } catch {
-    errors.push(`Failed to check trash.`);
+    const errorMessage = "Failed to check trash size.";
+    if (!errors.has("Trash")) {
+      errors.set("Trash", new Set<string>());
+    } else {
+      errors.get("Trash")?.add(errorMessage);
+    }
   }
 
   if (trashSize > 0) {
