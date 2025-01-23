@@ -2,7 +2,7 @@ import { uptime } from "os";
 import { execSync } from "child_process";
 import { Actions } from "../types/core.js";
 
-async function checUptime(advice: string[], actions: Actions) {
+async function checkUptime(advice: string[], actions: Actions) {
   const uptimeHours = uptime() / 3600;
 
   if (uptimeHours > 48) {
@@ -22,4 +22,4 @@ async function checUptime(advice: string[], actions: Actions) {
   }
 }
 
-export { checUptime };
+export { checkUptime };

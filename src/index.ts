@@ -7,7 +7,7 @@ import { manageDockerImages } from "./modules/docker.js";
 import { promptAction } from "./utils/prompts.js";
 import { displayMessage } from "./utils/display.js";
 import { displaySystemInfo } from "./utils/system.js";
-import { checUptime } from "./modules/uptime.js";
+import { checkUptime } from "./modules/uptime.js";
 import { Actions } from "./types/core.js";
 import { execSync } from "node:child_process";
 
@@ -39,7 +39,7 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
   await checkBrowserCache(advices, actions);
 
   // check uptime
-  await checUptime(advices, actions);
+  await checkUptime(advices, actions);
 
   // manage docker images (if daemon is running only)
   try {
@@ -52,7 +52,11 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
   }
 
   if (advices.length > 0) {
-    displayMessage("Clean That System - Advice", advices.join("\n"), "yellow");
+    displayMessage(
+      `Clean That System - Advice${advices.length > 1 && "s"}`,
+      advices.join("\n"),
+      "yellow"
+    );
     promptAction(actions, dryRunFlag);
   } else {
     displayMessage("System OK", "No issues detected.", "green");

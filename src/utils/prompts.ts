@@ -14,6 +14,13 @@ function promptAction(actions: Actions, dryRunFlag: boolean) {
     return;
   }
 
+  actions.push({
+    description: "Exit without making any changes",
+    execute: () => {
+      console.log(chalk.yellow("\nExiting without making any changes."));
+    },
+  });
+
   console.log(chalk.yellow("\nAvailable actions:"));
   actions.forEach((action, index) => {
     console.log(`${index + 1}. ${action.description}`);
