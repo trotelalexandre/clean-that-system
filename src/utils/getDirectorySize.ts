@@ -26,7 +26,6 @@ export function getDirectorySize(directory: string, errors: string[]): number {
     //  errors.push(
     //    `If you're on macOS, you may want to give your Terminal app Full Disk Access in System Preferences > Security & Privacy > Privacy.`
     //  );
-    }
   }
 
   return totalSize;
