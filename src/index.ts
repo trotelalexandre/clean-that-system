@@ -10,6 +10,7 @@ import { displaySystemInfo } from "./utils/system.js";
 import { checkUptime } from "./modules/uptime.js";
 import { Actions } from "./types/core.js";
 import { execSync } from "node:child_process";
+import { checkTrash } from "./modules/trash.js";
 
 interface InspectSystemOptions {
   dryRunFlag: boolean;
@@ -22,6 +23,7 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
 
   const advices: string[] = [];
   const actions: Actions = [];
+  const errors: string[] = [];
 
   // check cpu
   await checkCPU(advices, actions);
@@ -41,6 +43,9 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
   // check uptime
   await checkUptime(advices, actions);
 
+  // check trash
+  await checkTrash(advices, actions, errors);
+
   // manage docker images (if daemon is running only)
   try {
     execSync("docker info", { stdio: "ignore" });
@@ -51,9 +56,17 @@ async function inspectSystem({ dryRunFlag }: InspectSystemOptions) {
     );
   }
 
+  if (errors.length > 0) {
+    displayMessage(
+      `Clean That System - Error${errors.length > 1 ? "s" : ""}`,
+      errors.join("\n"),
+      "red"
+    );
+  }
+
   if (advices.length > 0) {
     displayMessage(
-      `Clean That System - Advice${advices.length > 1 && "s"}`,
+      `Clean That System - Advice${advices.length > 1 ? "s" : ""}`,
       advices.join("\n"),
       "yellow"
     );
