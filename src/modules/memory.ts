@@ -1,6 +1,7 @@
 import { totalmem, freemem } from "os";
 import { execSync } from "child_process";
 import { Actions } from "../types/core.js";
+import { MEMORY_USAGE_LIMIT } from "../data/params.js";
 
 async function checkMemory(advice: string[], actions: Actions) {
   const totalMemory = totalmem();
@@ -8,7 +9,7 @@ async function checkMemory(advice: string[], actions: Actions) {
   const usedMemory = totalMemory - freeMemory;
   const memoryUsage = usedMemory / totalMemory;
 
-  if (memoryUsage > 0.8) {
+  if (memoryUsage > MEMORY_USAGE_LIMIT) {
     advice.push("Memory usage is high. Try closing unnecessary programs.");
     actions.push({
       description: "List top memory-consuming processes",

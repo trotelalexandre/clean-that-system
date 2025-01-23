@@ -8,7 +8,6 @@ function displayMessage(title: string, message: string, color: ChalkColor) {
   console.log(
     boxen(chalkFunction(message), {
       title,
-      titleAlignment: "center",
       padding: 1,
       borderStyle: "round",
     })

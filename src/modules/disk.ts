@@ -1,10 +1,11 @@
 import { fsSize } from "systeminformation";
 import { execSync } from "child_process";
 import { Actions } from "../types/core.js";
+import { DISK_USAGE_LIMIT } from "../data/params.js";
 
 async function checkDisk(advice: string[], actions: Actions) {
   const diskUsage = await fsSize();
-  if (diskUsage[0].used / diskUsage[0].size > 0.8) {
+  if (diskUsage[0].used / diskUsage[0].size > DISK_USAGE_LIMIT) {
     advice.push(
       "Disk space usage is high. Consider cleaning up unnecessary files."
     );
