@@ -1,6 +1,6 @@
 {
   "name": "clean-that-system",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "src/bin/cts.js",
   "scripts": {
     "build": "tsc",
@@ -20,6 +20,10 @@
   "bin": {
     "cts": "dist/bin/cts.js"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "type": "module",
   "dependencies": {
     "boxen": "^8.0.1",
