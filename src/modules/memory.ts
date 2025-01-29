@@ -25,6 +25,20 @@ async function checkMemory(advice: string[], actions: Actions) {
         });
       },
     });
+    actions.push({
+      description: "Clear memory caches",
+      execute: () => {
+        const command =
+          process.platform === "win32"
+            ? 'powershell -Command "Clear-Content C:\\Windows\\Temp\\*; [System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers(); [System.GC]::Collect()"'
+            : process.platform === "darwin"
+              ? "sudo purge"
+              : "sync; echo 3 | sudo tee /proc/sys/vm/drop_caches";
+        execSync(command, {
+          stdio: "inherit",
+        });
+      },
+    });
   }
 }
 
