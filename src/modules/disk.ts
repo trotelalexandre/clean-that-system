@@ -12,11 +12,15 @@ async function checkDisk(advice: string[], actions: Actions) {
     actions.push({
       description: "Find large files on disk",
       execute: () => {
-        const command =
-          process.platform === "win32"
-            ? 'powershell -Command "Get-ChildItem -Path C:\\ -File -Recurse | Where-Object {$_.Length -gt 100MB}"'
-            : "find / -type f -size +100M";
-        execSync(command, { stdio: "inherit" });
+        try {
+          const command =
+            process.platform === "win32"
+              ? 'powershell -Command "Get-ChildItem -Path C:\\ -File -Recurse | Where-Object {$_.Length -gt 100MB}"'
+              : "find / -type f -size +100M";
+          execSync(command, { stdio: "inherit" });
+        } catch {
+          console.error("Failed to find large files on disk.");
+        }
       },
     });
   }

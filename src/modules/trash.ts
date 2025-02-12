@@ -36,14 +36,23 @@ async function checkTrash(
     actions.push({
       description: "Empty trash",
       execute: () => {
-        const command =
-          process.platform === "win32"
-            ? "rd /s /q $env:Recycle.Bin"
-            : process.platform === "darwin"
-              ? "sudo rm -rf ~/.Trash/*"
-              : "sudo rm -rf ~/.local/share/Trash/*";
+        try {
+          const command =
+            process.platform === "win32"
+              ? "rd /s /q $env:Recycle.Bin"
+              : process.platform === "darwin"
+                ? "sudo rm -rf ~/.Trash/*"
+                : "sudo rm -rf ~/.local/share/Trash/*";
 
-        execSync(command, { stdio: "inherit" });
+          execSync(command, { stdio: "inherit" });
+        } catch {
+          const errorMessage = "Failed to empty trash.";
+          if (!errors.has("Trash")) {
+            errors.set("Trash", new Set<string>());
+          } else {
+            errors.get("Trash")?.add(errorMessage);
+          }
+        }
       },
     });
   }
