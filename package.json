@@ -1,6 +1,6 @@
 {
   "name": "clean-that-system",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "src/bin/cts.js",
   "scripts": {
     "build": "tsc",
