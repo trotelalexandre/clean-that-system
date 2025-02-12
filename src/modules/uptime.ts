@@ -13,11 +13,15 @@ async function checkUptime(advice: string[], actions: Actions) {
     actions.push({
       description: "Restart the system",
       execute: () => {
-        const command =
-          process.platform === "win32"
-            ? "shutdown /r /t 0"
-            : "sudo shutdown -r now";
-        execSync(command, { stdio: "inherit" });
+        try {
+          const command =
+            process.platform === "win32"
+              ? "shutdown /r /t 0"
+              : "sudo shutdown -r now";
+          execSync(command, { stdio: "inherit" });
+        } catch {
+          console.error("Failed to restart the system.");
+        }
       },
     });
   }

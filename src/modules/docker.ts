@@ -9,8 +9,12 @@ async function manageDockerImages(advice: string[], actions: Actions) {
       actions.push({
         description: "Prune unused Docker images",
         execute: () => {
-          const command = "docker image prune -a -f";
-          execSync(command, { stdio: "inherit" });
+          try {
+            const command = "docker image prune -a -f";
+            execSync(command, { stdio: "inherit" });
+          } catch {
+            console.error("Failed to prune Docker images.");
+          }
         },
       });
     }

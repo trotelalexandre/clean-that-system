@@ -12,13 +12,17 @@ async function checkCPU(advices: string[], actions: Actions) {
       actions.push({
         description: "List top CPU-consuming processes",
         execute: () => {
-          const command =
-            process.platform === "win32"
-              ? 'powershell -Command "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10"'
-              : process.platform === "darwin"
-                ? "ps -A -o pid,ppid,comm,%cpu | sort -k 4 -r | head"
-                : "ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head";
-          execSync(command, { stdio: "inherit" });
+          try {
+            const command =
+              process.platform === "win32"
+                ? 'powershell -Command "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10"'
+                : process.platform === "darwin"
+                  ? "ps -A -o pid,ppid,comm,%cpu | sort -k 4 -r | head"
+                  : "ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head";
+            execSync(command, { stdio: "inherit" });
+          } catch {
+            console.error("Failed to list top CPU-consuming processes.");
+          }
         },
       });
     }

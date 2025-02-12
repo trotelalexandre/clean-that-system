@@ -1,3 +1,4 @@
+import inquirer from "inquirer";
 import { BROWSER_CACHE_LIMIT_IN_MB } from "../data/params.js";
 import { Actions } from "../types/core.js";
 import { getCacheSize } from "../utils/browsers/getCacheSize.js";
@@ -9,31 +10,57 @@ async function checkBrowsersCache(
   actions: Actions,
   errors: Map<string, Set<string>>
 ) {
-  // check what browsers are installed on the system
   const installedBrowsers = getInstalledBrowsers(errors);
 
-  // if no browsers are installed, return
   if (!installedBrowsers.length) {
     return;
   }
 
-  // for each installed browsers, check its cache size
+  const browsersToClear = [];
+
   for (const browser of installedBrowsers) {
     const cacheSize = await getCacheSize(browser, errors);
     if (cacheSize > BROWSER_CACHE_LIMIT_IN_MB) {
       advices.push(
         `The cache size of ${browser.name} is ${cacheSize.toFixed(2)} MB.`
       );
+      browsersToClear.push(browser);
+    }
+  }
+
+  if (browsersToClear.length > 0) {
+    const answers = await inquirer.prompt([
+      {
+        type: "checkbox",
+        name: "selectedBrowsers",
+        message: "Select browsers to clear cache:",
+        choices: browsersToClear.map((browser) => ({
+          name: browser.name,
+          value: browser,
+        })),
+      },
+    ]);
+
+    for (const browser of answers.selectedBrowsers) {
       actions.push({
         description: `Clear cache for ${browser.name}`,
         execute: () => {
-          const command =
-            process.platform === "win32"
-              ? `rmdir /s /q ${browser.winCache}`
-              : process.platform === "darwin"
-                ? `rm -rf ${browser.macCache}`
-                : `rm -rf ${browser.linuxCache}`;
-          execSync(command, { stdio: "inherit" });
+          try {
+            const command =
+              process.platform === "win32"
+                ? `rmdir /s /q ${browser.winCache}`
+                : process.platform === "darwin"
+                  ? `rm -rf ${browser.macCache}`
+                  : `rm -rf ${browser.linuxCache}`;
+            execSync(command, { stdio: "inherit" });
+          } catch {
+            const errorMessage = `Failed to clear cache for ${browser.name}.`;
+            if (!errors.has(browser.name)) {
+              errors.set(browser.name, new Set<string>());
+            } else {
+              errors.get(browser.name)?.add(errorMessage);
+            }
+          }
         },
       });
     }

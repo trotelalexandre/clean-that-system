@@ -14,29 +14,37 @@ async function checkMemory(advice: string[], actions: Actions) {
     actions.push({
       description: "List top memory-consuming processes",
       execute: () => {
-        const command =
-          process.platform === "win32"
-            ? 'powershell -Command "Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 10"'
-            : process.platform === "darwin"
-              ? "top -o mem -n 10"
-              : "top -b -o +%MEM | head -n 20";
-        execSync(command, {
-          stdio: "inherit",
-        });
+        try {
+          const command =
+            process.platform === "win32"
+              ? 'powershell -Command "Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 10"'
+              : process.platform === "darwin"
+                ? "top -o mem -n 10"
+                : "top -b -o +%MEM | head -n 20";
+          execSync(command, {
+            stdio: "inherit",
+          });
+        } catch {
+          console.error("Failed to list top memory-consuming processes.");
+        }
       },
     });
     actions.push({
       description: "Clear memory caches",
       execute: () => {
-        const command =
-          process.platform === "win32"
-            ? 'powershell -Command "Clear-Content C:\\Windows\\Temp\\*; [System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers(); [System.GC]::Collect()"'
-            : process.platform === "darwin"
-              ? "sudo purge"
-              : "sync; echo 3 | sudo tee /proc/sys/vm/drop_caches";
-        execSync(command, {
-          stdio: "inherit",
-        });
+        try {
+          const command =
+            process.platform === "win32"
+              ? 'powershell -Command "Clear-Content C:\\Windows\\Temp\\*; [System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers(); [System.GC]::Collect()"'
+              : process.platform === "darwin"
+                ? "sudo purge"
+                : "sync; echo 3 | sudo tee /proc/sys/vm/drop_caches";
+          execSync(command, {
+            stdio: "inherit",
+          });
+        } catch {
+          console.error("Failed to clear memory caches.");
+        }
       },
     });
   }

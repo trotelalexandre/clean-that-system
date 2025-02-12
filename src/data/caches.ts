@@ -3,7 +3,7 @@ import os from "os";
 
 export const caches: Caches = [
   {
-    name: "System-wide applications cache",
+    name: "system-wide applications cache",
     macPath: `/Library/Caches`,
     winPath: `C:\\Windows\\Temp`,
     linuxPath: `/var/cache`,
@@ -11,35 +11,35 @@ export const caches: Caches = [
       "Shared temporary files and application caches across the system",
   },
   {
-    name: "User applications cache",
+    name: "user applications cache",
     macPath: `${os.homedir()}/Library/Caches`,
     winPath: `${os.homedir()}\\AppData\\Local\\Temp`,
     linuxPath: `${os.homedir()}/.cache`,
     description: "User-specific application caches and temporary files",
   },
   {
-    name: "System logs",
+    name: "system logs",
     macPath: `/Library/Logs`,
     winPath: `C:\\Windows\\Logs`,
     linuxPath: `/var/log`,
     description: "System-level log files and diagnostic information",
   },
   {
-    name: "User logs",
+    name: "user logs",
     macPath: `${os.homedir()}/Library/Logs`,
     winPath: `${os.homedir()}\\AppData\\Local\\Temp`,
     linuxPath: `${os.homedir()}/.local/share/logs`,
     description: "User-specific application log files",
   },
   {
-    name: "Temporary files",
+    name: "temporary files",
     macPath: `/private/var/folders`,
     winPath: `${os.homedir()}\\AppData\\Local\\Temp`,
     linuxPath: `/tmp`,
     description: "Short-lived temporary files and working directories",
   },
   {
-    name: "Application states",
+    name: "application states",
     macPath: `${os.homedir()}/Library/Saved Application State`,
     winPath: `${os.homedir()}\\AppData\\Local\\Packages`,
     linuxPath: `${os.homedir()}/.local/share/application-states`,
